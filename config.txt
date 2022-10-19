@@ -1,0 +1,9 @@
+[system]
+adcGain: 1
+motorAmount: 4
+
+[sensors]
+sensor1: [[1,2,3,4,5],f] 
+sensor2: [[1,2,3,4,5],e] 
+
+#I havent checked if that is possible
