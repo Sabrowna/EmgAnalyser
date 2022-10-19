@@ -1,24 +1,23 @@
-from Sensors import Sensor
-import configparser
+from abc import ABC, abstractmethod
+import Adafruit_ADS1x15
 
 
-class EmgReader():
-    def readConfigFile():
-        configParser = configparser.RawConfigParser()
-        configFilePath = r"C:\Users\Bruger\Documents\7. semester\Bachelor\SW\EmgAnalyser\config.txt"
-        configParser.read(configFilePath)
-
-        sensorAmount = configParser.get('system', 'sensors')
-        adcAmount = configParser.get('system', 'adc')
-        return sensorAmount, adcAmount
-
-    def convertBitsToVoltage(self, bits):
-        voltage = (5/2048) * bits
-        return voltage
+class IEmgReader(ABC):
+    @abstractmethod
+    def readEmgValues(channelAmount):
+        pass
 
 
-e = EmgReader()
-sensorNumber = e.readConfigFile()[0]
-adcAmount = e.readConfigFile()[1]
-bits = Sensor.readSensor(sensorNumber)
-voltage = e.convertBitsToVoltage(bits)
+class Adc(IEmgReader):
+    def __init__(self) -> None:
+        self.adc = Adafruit_ADS1x15.ADS1015()
+
+    def readEmgValues(self, channelAmount):
+        listOfEmgValues = {}
+        listOfEmgValues.clear()
+        for localChannel in range(channelAmount):
+            self.adc.start_adc(localChannel)
+            emgValue = self.adc.read_adc(localChannel)
+            emgInVoltage = emgValue * (5/2048)
+            print('channel' + str(localChannel) + ': ' + str(emgInVoltage))
+            listOfEmgValues[localChannel] = emgInVoltage
