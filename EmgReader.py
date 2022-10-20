@@ -13,11 +13,11 @@ class Adc(IEmgReader):
         self.adc = Adafruit_ADS1x15.ADS1015()
 
     def readEmgValues(self, channelAmount):
-        listOfEmgValues = {}
-        listOfEmgValues.clear()
-        for localChannel in range(channelAmount):
-            self.adc.start_adc(localChannel)
-            emgValue = self.adc.read_adc(localChannel)
-            emgInVoltage = emgValue * (5/2048)
-            print('channel' + str(localChannel) + ': ' + str(emgInVoltage))
-            listOfEmgValues[localChannel] = emgInVoltage
+        emgValuesDict = {}
+        emgValuesDict.clear()
+        for channel in range(channelAmount):
+            self.adc.start_adc(channel)
+            emgInVoltage = (self.adc.read_adc(channel)) * (5/2048)
+            print('channel' + str(channel) + ': ' + str(emgInVoltage))
+            emgValuesDict[channel] = emgInVoltage
+        return emgValuesDict
