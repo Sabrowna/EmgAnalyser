@@ -1,5 +1,4 @@
 from abc import ABC, abstractmethod
-from asyncore import loop
 import random
 import Adafruit_ADS1x15
 
@@ -16,8 +15,8 @@ class FakeAdc(IEmgReader):
         emgValuesDict.clear()
         for channel in range(channelAmount):
             emgInVoltage = (random.randrange(0, 2048)) * (5/2048)
-            print('channel' + str(channel) + ': ' + str(emgInVoltage))
             emgValuesDict[channel] = emgInVoltage
+        print('dict: ' + str(emgValuesDict))
         return emgValuesDict
 
 
@@ -36,13 +35,14 @@ class Adc(IEmgReader):
         return emgValuesDict
 
 
-class EmgReader():
-    def readAdcChannels(channels):
-        adc = FakeAdc()
-        adcValues = adc.readSensor(channels)
+# ------------ Apparantly this is not how to do it. Instead you impl. interface in the other class (emg transformer)
+# class EmgReader():
+#     def readAdcChannels(channels):
+#         adc = FakeAdc()
+#         adcValues = adc.readSensor(channels)
 
-        for adcValue in adcValues:
-            print(adcValue)
+#         for adcValue in adcValues:
+#             print(adcValue)
 
 
 # e = EmgReader()

@@ -1,8 +1,8 @@
 from enum import Enum
 
 
-class Actions(Enum):
-    Open = 'open'
-    Close = 'close'
-    Stop = 'stop'
-    NA = 'na'
+class ActionEnum(Enum):
+    open = "open"
+    close = "close"
+    stop = "stop"
+    na = "na"
