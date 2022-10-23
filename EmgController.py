@@ -6,7 +6,7 @@ from EmgReader import Adc, IEmgReader
 
 class EmgController():
     def __init__(self) -> None:
-        #sensor1 = {[1, 2, 3, 4, 5, 'e']}
+        # Fake code
         sensors = {
             'sensor0': 3,
             'sensor1': {'motors': [1, 2, 3, 4, 5],
@@ -17,7 +17,7 @@ class EmgController():
         self.length = len(sensors)
         print('length: ' + str(self.length))
 
-        # print(self.sensor1)
+        # Testing fake code
         print(sensors['sensor2'])
         print(sensors['sensor2']['motors'])
         print(sensors['sensor2']['motors'][0])
