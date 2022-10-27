@@ -14,7 +14,8 @@ class IActionSender(abc.ABC):
 class ActionSender(IActionSender):
     def __init__(self) -> None:
         pass
-        self.arduino = serial.Serial(port='COM7', baudrate=9600, timeout=.1)
+        # self.arduino = serial.Serial(port='COM7', baudrate=9600, timeout=.1)
+        self.arduino = serial.Serial('/dev/ttyS0', 9600, timeout=1)
 
     def sendAction(self, action: DTO_Action):
         serializedAction = self.serialiseAction(action)

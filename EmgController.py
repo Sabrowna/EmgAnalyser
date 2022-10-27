@@ -1,5 +1,6 @@
 import configparser
-# from ActionSender import ActionSender
+from importlib.util import set_loader
+from ActionSender import ActionSender
 from EmgTransformer import EmgTransformer
 import ActionEnum
 import DTO_Action
@@ -47,6 +48,7 @@ class EmgController():
     def getNewAction(self):
         # TODO I should pass on the number of channels from this method
         lastGrip = EmgTransformer().getNewAction()
+        self.a = ActionSender()
         while True:
             grip = EmgTransformer().getNewAction()
             if (grip != None and lastGrip != None):
@@ -58,7 +60,6 @@ class EmgController():
 
     def matchCommand(self, grip):
         # myDTO = DTO_Action()
-        # a = ActionSender()
 
         match grip:
             case "open":
@@ -76,7 +77,7 @@ class EmgController():
             DTO_Action.DTO_Action.actions[i] = ActionEnum.ActionEnum.na
         print('sending dto enum ')
         print(DTO_Action.DTO_Action.actions)
-        # a.sendAction(myDTO)
+        self.a.sendAction(DTO_Action.DTO_Action.actions)
         # ActionSender.sendAction(myDTO)
 
 

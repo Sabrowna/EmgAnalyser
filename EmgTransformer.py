@@ -15,7 +15,8 @@ class EmgTransformer():
         return "close"
 
     def getNewAction(self):
-        adcValues = EmgReader.FakeAdc().readSensor(2)
+        a = EmgReader.Adc()
+        adcValues = a.readSensor(2)
 
         for iteration in range(len(adcValues)):
             if (adcValues[iteration] > 2):
