@@ -18,11 +18,11 @@ class ActionSender(IActionSender):
         self.arduino = serial.Serial('/dev/ttyS0', 9600, timeout=1)
 
     def sendAction(self, action: DTO_Action):
-        serializedAction = self.serialiseAction(action)
+        serializedAction = self.__serialiseAction(action)
         print(serializedAction)
         self.arduino.write(bytes(serializedAction, 'utf-8'))
 
-    def serialiseAction(self, dto_action: DTO_Action):
+    def __serialiseAction(self, dto_action: DTO_Action):
         i = 0
         serialisedAction = ""
 
