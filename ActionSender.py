@@ -32,23 +32,3 @@ class ActionSender(IActionSender):
             i += 1
         serialisedAction = serialisedAction + ">"
         return serialisedAction
-
-
-a = ActionSender()
-myDTO = DTO_Action()
-theEnum = ActionEnum
-while True:
-    print("Enter 5 new commands to fill up new dto")
-    for i in range(5):
-        command = input("Enter command " + str(i+1) + " :")
-        match command:
-            case "open":
-                theEnum = ActionEnum.open
-            case "close":
-                theEnum = ActionEnum.close
-            case "stop":
-                theEnum = ActionEnum.stop
-            case "na":
-                theEnum = ActionEnum.na
-        myDTO.actions[i] = theEnum
-    a.sendAction(myDTO)

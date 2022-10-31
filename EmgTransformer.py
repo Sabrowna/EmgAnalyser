@@ -7,14 +7,14 @@ from DTO_Action import DTO_Action
 class EmgTransformer():
     def __init__(self, sensorMethod, adcType) -> None:
         self.adcType = adcType
-        self.adc = EmgReader.FakeAdc()
+        self.adc = EmgReader.Adc()
         self.actionEnum = ActionEnum
         self.dtoAction = DTO_Action()
-        self.config = self.readConfigFile()
+        self.config = self.__readConfigFile()
         self.sensorAmount = len(self.config.items('sensors'))
         self.sensorMethod = sensorMethod
 
-    def readConfigFile(self):
+    def __readConfigFile(self):
         config = configparser.RawConfigParser()
         config.read('config.ini')
         return config
@@ -30,18 +30,14 @@ class EmgTransformer():
         for motor in range(len(motorRange)-1):
             print(f'motordirection: {motorDirection}')
             if (motorDirection == 'o'):
-                print('equals o')
                 self.dtoAction.actions[motorRange[motor]
                                        ] = self.actionEnum.open
             elif (motorDirection == 'c'):
-                print('equals c')
                 self.dtoAction.actions[motorRange[motor]
                                        ] = self.actionEnum.close
             elif (motorDirection == 's'):
-                print('equals s')
                 self.dtoAction.actions[motorRange[motor]
                                        ] = self.actionEnum.stop
-        print(self.dtoAction.actions)
         return self.dtoAction.actions
 
     def handlePairedSensorValues(self):
@@ -59,21 +55,19 @@ class EmgTransformer():
 
             # 1st sensor in the pair is active
             elif emgValues[i] > 2 and emgValues[i + 1] < 2:
-                print('1st sensor active')
                 motorDirection = sensors[i][1][-1]
                 motorRange = self.getRange(((sensors)[i][1]))
 
             # 2nd sensor in the pair is active
             elif emgValues[i+1] > 2 and emgValues[i] < 2:
-                print('2nd sensor active')
                 motorDirection = sensors[i+1][1][-1]
                 motorRange = self.getRange(((sensors)[i+1][1]))
             elif emgValues[i] < 2 and emgValues[i+1] < 2:
-                print('no sensors active')
                 motorDirection = 's'
                 motorRange = self.getRange(((sensors)[i][1]))
-
-        self.createActionDto(motorDirection, motorRange)
+            self.createActionDto(motorDirection, motorRange)
+        print(self.dtoAction.actions)
+        return self.dtoAction.actions
 
     def handleSingleSensorValues(self):
         print('single sensor value method')
@@ -84,7 +78,11 @@ class EmgTransformer():
         # createActionDto(stop, motorRange)
         # example stop motor 1, 2, 3
 
-
-e = EmgTransformer('pair', 'fakeAdc')
-e.readConfigFile()
-e.handlePairedSensorValues()
+    def handleSensorValues(self):
+        if (self.sensorMethod == 'pair'):
+            return self.handlePairedSensorValues()
+        elif (self.sensorMethod == 'single'):
+            return self.handleSingleSensorValues()
+# e = EmgTransformer('pair', 'fakeAdc')
+# e.readConfigFile()
+# e.handlePairedSensorValues()

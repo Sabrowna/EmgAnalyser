@@ -42,17 +42,6 @@ class Adc(IEmgReader):
             emgValuesDict[channel] = emgInVoltage
         return emgValuesDict
 
-
-# ------------ Apparantly this is not how to do it. Instead you impl. interface in the other class (emg transformer)
-# class EmgReader():
-#     def readAdcChannels(channels):
-#         adc = FakeAdc()
-#         adcValues = adc.readSensor(channels)
-
-#         for adcValue in adcValues:
-#             print(adcValue)
-
-
 # e = EmgReader()
 # while True:
 #     EmgReader.readAdcChannels(2)
