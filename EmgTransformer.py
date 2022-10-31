@@ -1,93 +1,90 @@
 import configparser
-from nntplib import GroupInfo
+from ActionEnum import ActionEnum
 import EmgReader
+from DTO_Action import DTO_Action
 
 
 class EmgTransformer():
-    newActionReceived = False
+    def __init__(self, sensorMethod, adcType) -> None:
+        self.adcType = adcType
+        self.adc = EmgReader.FakeAdc()
+        self.actionEnum = ActionEnum
+        self.dtoAction = DTO_Action()
+        self.config = self.readConfigFile()
+        self.sensorAmount = len(self.config.items('sensors'))
+        self.sensorMethod = sensorMethod
 
-    def __init__(self) -> None:
-        self.adc = EmgReader.Adc()
+    def readConfigFile(self):
+        config = configparser.RawConfigParser()
+        config.read('config.ini')
+        return config
 
-    def openGrip(self):
-        self.newActionReceived = True
-        print('open')
-        return "open"
+    def getRange(self, motorSetting):
+        tempList = []
+        for i in range(len(motorSetting)):
+            if (motorSetting[i] != '0'):
+                tempList.append(i)
+        return tempList
 
-    def closeGrip(self):
-        self.newActionReceived = True
-        print('close')
-        return "close"
+    def createActionDto(self, motorDirection, motorRange):
+        for motor in range(len(motorRange)-1):
+            print(f'motordirection: {motorDirection}')
+            if (motorDirection == 'o'):
+                print('equals o')
+                self.dtoAction.actions[motorRange[motor]
+                                       ] = self.actionEnum.open
+            elif (motorDirection == 'c'):
+                print('equals c')
+                self.dtoAction.actions[motorRange[motor]
+                                       ] = self.actionEnum.close
+            elif (motorDirection == 's'):
+                print('equals s')
+                self.dtoAction.actions[motorRange[motor]
+                                       ] = self.actionEnum.stop
+        print(self.dtoAction.actions)
+        return self.dtoAction.actions
 
-    def getNewAction(self):
-        a = EmgReader.Adc()
-        adcValues = a.readSensor(2)
+    def handlePairedSensorValues(self):
+        emgValues = self.adc.readSensor(self.sensorAmount)
 
-        for iteration in range(len(adcValues)):
-            if (adcValues[iteration] > 2):
-                if (iteration == 0):
-                    return self.openGrip()
-                elif (iteration == 1):
-                    return self.closeGrip()
+        # running in the range of sensorAmounts, with a step of 2
+        # Doesn't take the last argument, since it is a letter (o or c)
+        for i in range(0, len(emgValues)-1, 2):
+            sensors = self.config.items('sensors')
 
-        # Move to convertToAction()?
+            # i defines which sensor
+            if emgValues[i] > 2 and emgValues[i+1] > 2:
+                # Do nothing if both sensors in a pair is active
+                break
 
-    def convertGripToActions(self, voltage):
-        # 1: loop through sensors
-        # 2: for each sensor:
-        # - How many motors controlling out of 5?
-        # - Grip type? open or closing grip?
-        # ----------- MISSING ------------
-        # Return ActionDTO
-        # Check for voltage - if it is +2, startGrip else stopMotor
-        # Which sensor has received something?
+            # 1st sensor in the pair is active
+            elif emgValues[i] > 2 and emgValues[i + 1] < 2:
+                print('1st sensor active')
+                motorDirection = sensors[i][1][-1]
+                motorRange = self.getRange(((sensors)[i][1]))
 
-        # Reading the file by using a parser
-        configParser = configparser.RawConfigParser()
-        configFilePath = r"C:\Users\Bruger\Documents\7. semester\Bachelor\SW\EmgAnalyser\config.txt"
-        configParser.read(configFilePath)
+            # 2nd sensor in the pair is active
+            elif emgValues[i+1] > 2 and emgValues[i] < 2:
+                print('2nd sensor active')
+                motorDirection = sensors[i+1][1][-1]
+                motorRange = self.getRange(((sensors)[i+1][1]))
+            elif emgValues[i] < 2 and emgValues[i+1] < 2:
+                print('no sensors active')
+                motorDirection = 's'
+                motorRange = self.getRange(((sensors)[i][1]))
 
-        # list of actions
-        actionlist = []
+        self.createActionDto(motorDirection, motorRange)
 
-        # looping through each line in the [sensors] section (all sensors)
-        for (sensor, motorControlling) in configParser.items('sensors'):
-            print(sensor + ': ' + motorControlling)
-            motorlist = motorControlling
-            gripType = motorlist[len(motorlist) - 1]
-
-            actionlist.clear()
-
-            # looping through 5 times, one for each motor
-            for i in range(1, 6):
-                if (int(motorlist[i-1]) == i):
-                    actionlist.append(gripType)
-                else:
-                    actionlist.append('na')
-
-            print('actionlist: ' + str(actionlist))
-
-
-e = EmgTransformer()
-e.convertGripToActions(2)
-
-
-# read config file
-# read all adcs
-# if the value from adc is higher than 2
-# which sensor are we talking about?
-# Is it an opening or closing action?
-# How many motors?
-# Put it into an action form
-
-
-def readConfigFile():
-    return 'configObj'
-
-
-def readSensor(self, sensorNum):
-    return 'grip'
+    def handleSingleSensorValues(self):
+        print('single sensor value method')
+        # elif the value is > 2
+        # createActionDto(open/close, motorRange)
+        # example open motor 1, 2, 3
+        # elif the value is < 2
+        # createActionDto(stop, motorRange)
+        # example stop motor 1, 2, 3
 
 
-def processEmgSignal(grip):
-    return 'dto action'
+e = EmgTransformer('pair', 'fakeAdc')
+e.readConfigFile()
+e.handlePairedSensorValues()
