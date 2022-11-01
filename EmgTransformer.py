@@ -5,9 +5,12 @@ from DTO_Action import DTO_Action
 
 
 class EmgTransformer():
+    # def __init__(self, sensorMethod, adc: EmgReader.IEmgReader) -> None:
     def __init__(self, sensorMethod, adcType) -> None:
-        self.adcType = adcType
-        self.adc = EmgReader.FakeAdc()
+        if (adcType == 'fakeadc'):
+            self.adc = EmgReader.FakeAdc()
+        else:
+            self.adc = EmgReader.Adc(adcType)
         self.actionEnum = ActionEnum
         self.dtoAction = DTO_Action()
         self.config = self.__readConfigFile()
@@ -28,7 +31,6 @@ class EmgTransformer():
 
     def __createActionDto(self, motorDirection, motorRange):
         for motor in range(len(motorRange)-1):
-            print(f'motordirection: {motorDirection}')
             if (motorDirection == 'o'):
                 self.dtoAction.actions[motorRange[motor]
                                        ] = self.actionEnum.open

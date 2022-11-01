@@ -29,8 +29,11 @@ class FakeAdc(IEmgReader):
 
 
 class Adc(IEmgReader):
-    def __init__(self) -> None:
-        self.adc = Adafruit_ADS1x15.ADS1015()
+    def __init__(self, adcType) -> None:
+        if (adcType == 'ads1015'):
+            self.adc = Adafruit_ADS1x15.ADS1015()
+        elif (adcType == 'ads1115'):
+            self.adc = Adafruit_ADS1x15.ADS1115()
 
     def readSensor(self, channelAmount):
         emgValuesDict = {}
@@ -41,6 +44,7 @@ class Adc(IEmgReader):
             print('channel' + str(channel) + ': ' + str(emgInVoltage))
             emgValuesDict[channel] = emgInVoltage
         return emgValuesDict
+
 
 # e = EmgReader()
 # while True:
