@@ -10,20 +10,16 @@ class IEmgReader(ABC):
 
 
 class FakeAdc(IEmgReader):
+    def __init__(self, sensorValues) -> None:
+        self.sensors = sensorValues
+
     def readSensor(self, channelAmount):
         emgValuesDict = {}
         emgValuesDict.clear()
-        isSensorActive = False
 
         for channel in range(channelAmount):
-            if (isSensorActive):
-                emgInVoltage = 0
-            elif (isSensorActive == False):
-                emgInVoltage = (random.randrange(0, 2048)) * (5/2048)
-            if (emgInVoltage > 2):
-                isSensorActive = True
+            emgInVoltage = self.sensors[channel]
             emgValuesDict[channel] = emgInVoltage
-        emgValuesDict = {0: 0.23, 1: 2.01, 2: 1.00, 3: 3.89}
         print('dict: ' + str(emgValuesDict))
         return emgValuesDict
 

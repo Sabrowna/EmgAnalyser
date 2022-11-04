@@ -1,16 +1,13 @@
 import configparser
 from ActionEnum import ActionEnum
-import EmgReader
+from EmgReader import IEmgReader
 from DTO_Action import DTO_Action
 
 
 class EmgTransformer():
-    # def __init__(self, sensorMethod, adc: EmgReader.IEmgReader) -> None:
-    def __init__(self, sensorMethod, adcType) -> None:
-        if (adcType == 'fakeadc'):
-            self.adc = EmgReader.FakeAdc()
-        else:
-            self.adc = EmgReader.Adc(adcType)
+    def __init__(self, sensorMethod, adc: IEmgReader, configPath) -> None:
+        self.configpath = configPath
+        self.adc = adc
         self.actionEnum = ActionEnum
         self.dtoAction = DTO_Action()
         self.config = self.__readConfigFile()
@@ -19,7 +16,7 @@ class EmgTransformer():
 
     def __readConfigFile(self):
         config = configparser.RawConfigParser()
-        config.read('config.ini')
+        config.read(self.configpath)
         return config
 
     def __getRange(self, motorSetting):
@@ -73,12 +70,12 @@ class EmgTransformer():
 
     def __handleSingleSensorValues(self):
         print('single sensor value method')
-        # elif the value is > 2
-        # createActionDto(open/close, motorRange)
-        # example open motor 1, 2, 3
+        # if the value is > 2
+        #   createActionDto(open/close, motorRange)
+        #   example open motor 1, 2, 3
         # elif the value is < 2
-        # createActionDto(stop, motorRange)
-        # example stop motor 1, 2, 3
+        #   createActionDto(stop, motorRange)
+        #   example stop motor 1, 2, 3
 
     def handleSensorValues(self):
         if (self.sensorMethod == 'pair'):

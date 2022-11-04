@@ -1,18 +1,19 @@
 class PseudoClass():
     def __init__(self) -> None:
+        pass
         # Initalizing adc
         # Initializing actionEnum
         # Initializing dtoAction
         # Read configuration file and set self.config + sensorAmount
         # Define either pairedSensor-method or SingleSensor-method
-        print('initialize')
 
     def readConfigFile(self):
+        pass
         # read file from a path (not from a specifik user on specifik pc)
         # return object containing the file
-        print('returning object configuration file')
 
     def createActionDto(self, motorDirection, motorRange):
+        pass
         # for motor in range(motorRange):
         # if (motorDirection == 'o')
         #self.dtoAction.actions[motor] = self.actionEnum.open
@@ -23,6 +24,7 @@ class PseudoClass():
         # return self.dtoAction.actions
 
     def handlePairedSensorValues(self):
+        pass
         # read sensor values
         #emgValues = self.adc.readSensor(self.sensorAmount)
         # Iterate over every 2nd sensor
@@ -38,6 +40,7 @@ class PseudoClass():
         # example stop motor 1, 2, 3123
 
     def handleSingleSensorValues(self):
+        pass
         # elif the value is > 2
         #createActionDto(open/close, motorRange)
         # example open motor 1, 2, 3
