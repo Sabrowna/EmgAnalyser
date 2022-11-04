@@ -25,6 +25,6 @@ sensorValues = {0: 2.25, 1: 0.99}
 actionSender = FakeActionSender()
 emgReader = FakeAdc(sensorValues)
 
-configPath = 'testconfig.ini'
+configPath = 'config.ini'
 e = EmgController(actionSender, emgReader, configPath)
 e.getNewAction()

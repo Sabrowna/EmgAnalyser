@@ -79,6 +79,13 @@ class EmgTransformer():
 
     def handleSensorValues(self):
         if (self.sensorMethod == 'pair'):
+            # if (self.sensorAmount % 2 != 0):
+            #     print(f'uneven sensor number ({self.sensorAmount})')
+            #     try:
+            #         return self.__handlePairedSensorValues()
+            #     except ValueError:
+            #         print(
+            #             f'The number of sensors is uneven. \nThere might be a mistake in the {self.configPath} either with the amount of sensors or the chosen method ')
             return self.__handlePairedSensorValues()
         elif (self.sensorMethod == 'single'):
             return self.__handleSingleSensorValues()
