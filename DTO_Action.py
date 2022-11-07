@@ -4,5 +4,6 @@ from ActionEnum import ActionEnum
 
 @dataclass
 class DTO_Action:
-    actions = [ActionEnum.stop, ActionEnum.stop,
-               ActionEnum.stop, ActionEnum.stop, ActionEnum.stop]
+    def __init__(self) -> None:
+        self.actions = [ActionEnum.stop, ActionEnum.stop,
+                        ActionEnum.stop, ActionEnum.stop, ActionEnum.stop]

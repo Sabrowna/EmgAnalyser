@@ -1,30 +1,21 @@
-from ActionSender import *
-from EmgReader import *
-from EmgTransformer import EmgTransformer
+from ActionSender import IActionSender
+from EmgTransformer import ITransformer
+from DTO_Action import *
 
 
 class EmgController():
-    def __init__(self, actionSender: IActionSender, adc: IEmgReader, configPath) -> None:
-        self.lastgrip = 'stop'
+    def __init__(self, actionSender: IActionSender, transformer: ITransformer) -> None:
+        dto = DTO_Action()
+        self.lastgrip = dto.actions
+        print(self.lastgrip)
         self.actionSender = actionSender
-        self.emgTransformer = EmgTransformer('pair', adc, configPath)
+        self.emgTransformer = transformer
+        self.sameGripRegistered = True
 
     def getNewAction(self):
-        while True:
-            grip = self.emgTransformer.handleSensorValues()
-            if (grip != None):
-                if (self.lastgrip != grip):
-                    print('new grip registered')
-                    print(grip)
-                    self.actionSender.sendAction(grip)
-                    break
-
-
-#sensorValues = {0: 2.25, 1: 0.99, 2: 2.63, 3: 0.95}
-sensorValues = {0: 2.25, 1: 0.99}
-actionSender = FakeActionSender()
-emgReader = FakeAdc(sensorValues)
-
-configPath = 'config.ini'
-e = EmgController(actionSender, emgReader, configPath)
-e.getNewAction()
+        grip = self.emgTransformer.handleSensorValues()
+        if (grip != None):
+            if (self.lastgrip != grip):
+                print('new grip registered')
+                print(grip)
+                self.actionSender.sendAction(grip)

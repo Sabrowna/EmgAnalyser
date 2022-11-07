@@ -8,7 +8,7 @@ from DTO_Action import *
 class IActionSender(abc.ABC):
     @abc.abstractmethod
     def sendAction(self, action: DTO_Action):
-        pass
+        raise NotImplementedError
 
 
 class ActionSender(IActionSender):

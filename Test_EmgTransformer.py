@@ -145,23 +145,12 @@ class TransformerTest(unittest.TestCase):
         dto.actions[0] = enum.open
         dto.actions[1] = enum.open
         dto.actions[2] = enum.open
-        dto.actions[3] = enum.stop
-        dto.actions[4] = enum.close
-
-        print('result: ' + str(result))
-        print('actions: ' + str(dto.actions))
+        dto.actions[3] = enum.open
+        dto.actions[4] = enum.open
 
         # Assert
         self.assertEqual(result, dto.actions)
 
 
-        # open, close metoder
-        # not applicable
-        # for mange sensorer?
-        # ------------------ Andre tests ----------------
-        # sender kun når der modtages nyt greb
-        # Errors
-        # serialiserer korrekt
-        # error handling on uneven sensornumbers
 if __name__ == '__main__':
     unittest.main()
