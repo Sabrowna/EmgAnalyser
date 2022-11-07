@@ -3,6 +3,7 @@ import EmgTransformer
 from EmgReader import *
 from ActionEnum import ActionEnum
 from DTO_Action import DTO_Action
+from Test_Fakes import *
 
 
 class TransformerTest(unittest.TestCase):

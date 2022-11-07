@@ -30,21 +30,3 @@ class ActionSender(IActionSender):
             i += 1
         serialisedAction = serialisedAction + ">"
         return serialisedAction
-
-
-class FakeActionSender(IActionSender):
-    def sendAction(self, action: DTO_Action):
-        serializedAction = self.serialiseAction(action)
-        print(serializedAction)
-        print(bytes(serializedAction, 'utf-8'))
-
-    def serialiseAction(self, actionslist):
-        i = 0
-        serialisedAction = ""
-
-        for motoract in actionslist:
-            serialisedAction = serialisedAction + \
-                str(i+1) + ":" + motoract.value[0] + ","
-            i += 1
-        serialisedAction = serialisedAction + ">"
-        return serialisedAction

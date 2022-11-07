@@ -1,10 +1,17 @@
+import abc
 import configparser
 from ActionEnum import ActionEnum
 from EmgReader import IEmgReader
 from DTO_Action import DTO_Action
 
 
-class EmgTransformer():
+class ITransformer(abc.ABC):
+    @abc.abstractmethod
+    def handleSensorValues(self):
+        raise NotImplementedError
+
+
+class EmgTransformer(ITransformer):
     def __init__(self, sensorMethod, adc: IEmgReader, configPath) -> None:
         self.configpath = configPath
         self.adc = adc
