@@ -11,7 +11,7 @@ class TransformerTest(unittest.TestCase):
         # In order to receive close, sensor 2 must send over 2V and sensor 1 should send under 2V
 
         # Arrange
-        configPath = '2sensors.ini'
+        configPath = 'test_2sensors.ini'
         sensorValues = {0: 0.01, 1: 2.53}
         enum = ActionEnum
         dto = DTO_Action()
@@ -35,22 +35,21 @@ class TransformerTest(unittest.TestCase):
         # What happens when no sensors is received from config
 
         # Arrange
-        configPath = '0sensors.ini'
+        configPath = 'test_0sensors.ini'
         sensorValues = {0: 0.01, 1: 2.53}
-        enum = ActionEnum
-        dto = DTO_Action()
-
         emgReader = FakeAdc(sensorValues)
         transformer = EmgTransformer.EmgTransformer(
             'pair', emgReader, configPath)
-
-        # Act
-        result = transformer.handleSensorValues()
+        enum = ActionEnum
+        dto = DTO_Action()
         dto.actions[0] = enum.stop
         dto.actions[1] = enum.stop
         dto.actions[2] = enum.stop
         dto.actions[3] = enum.stop
         dto.actions[4] = enum.stop
+
+        # Act
+        result = transformer.handleSensorValues()
 
         # Assert
         self.assertEqual(result, dto.actions)
@@ -59,7 +58,7 @@ class TransformerTest(unittest.TestCase):
         # What happens when no sensors is received from config
 
         # Arrange
-        configPath = '2sensors.ini'
+        configPath = 'test_2sensors.ini'
         sensorValues = {0: 0.01, 1: 1.53}
         enum = ActionEnum
         dto = DTO_Action()
@@ -83,7 +82,7 @@ class TransformerTest(unittest.TestCase):
         # What happens when no sensors is received from config
 
         # Arrange
-        configPath = '2sensors.ini'
+        configPath = 'test_2sensors.ini'
         sensorValues = {0: 2.01, 1: 2.53}
         enum = ActionEnum
         dto = DTO_Action()
@@ -107,7 +106,7 @@ class TransformerTest(unittest.TestCase):
         # What happens when no sensors is received from config
 
         # Arrange
-        configPath = '2sensors.ini'
+        configPath = 'test_2sensors.ini'
         sensorValues = {0: 2.01, 1: 0.53}
         enum = ActionEnum
         dto = DTO_Action()
@@ -127,30 +126,33 @@ class TransformerTest(unittest.TestCase):
         # Assert
         self.assertEqual(result, dto.actions)
 
-    # def test_handleSensorValues_4sensors_OpenOpen(self):
-    #     # What happens when no sensors is received from config
+    def test_handleSensorValues_4sensors_OpenOpen(self):
+        # What happens when no sensors is received from config
 
-    #     # Arrange
-    #     configPath = '4sensors.ini'
-    #     sensorValues = {0: 2.01, 1: 0.53, 2: 2.01, 3: 0.53}
-    #     enum = ActionEnum
-    #     dto = DTO_Action()
+        # Arrange
+        configPath = 'test_4sensors.ini'
+        sensorValues = {0: 2.01, 1: 0.53, 2: 2.01, 3: 0.53}
+        enum = ActionEnum
+        dto = DTO_Action()
 
-    #     emgReader = FakeAdc(sensorValues)
-    #     transformer = EmgTransformer.EmgTransformer(
-    #         'pair', emgReader, configPath)
+        emgReader = FakeAdc(sensorValues)
+        transformer = EmgTransformer.EmgTransformer(
+            'pair', emgReader, configPath)
 
-    #     # Act
-    #     dto.actions.clear()
-    #     result = transformer.handleSensorValues()
-    #     dto.actions[0] = enum.open
-    #     dto.actions[1] = enum.open
-    #     dto.actions[2] = enum.open
-    #     dto.actions[3] = enum.open
-    #     dto.actions[4] = enum.open
+        # Act
+        result = transformer.handleSensorValues()
+        dto.actions[0] = enum.open
+        dto.actions[1] = enum.open
+        dto.actions[2] = enum.open
+        dto.actions[3] = enum.stop
+        dto.actions[4] = enum.close
 
-    #     # Assert
-    #     self.assertEqual(result, dto.actions)
+        print('result: ' + str(result))
+        print('actions: ' + str(dto.actions))
+
+        # Assert
+        self.assertEqual(result, dto.actions)
+
 
         # open, close metoder
         # not applicable
