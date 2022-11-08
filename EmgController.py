@@ -17,5 +17,7 @@ class EmgController():
         if (grip != None):
             if (self.lastgrip != grip):
                 print('new grip registered')
-                print(grip)
+                print(f'grip: {grip}')
+                print(f'lastgrip: {self.lastgrip}')
+                self.lastgrip = grip
                 self.actionSender.sendAction(grip)
