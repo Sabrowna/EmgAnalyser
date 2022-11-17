@@ -72,7 +72,6 @@ class EmgTransformer(ITransformer):
                 motorDirection = 's'
                 motorRange = self.__getRange(((sensors)[i][1]))
             self.__createActionDto(motorDirection, motorRange)
-        print(self.dtoAction.actions)
         return self.dtoAction.actions
 
     def __handleSingleSensorValues(self):

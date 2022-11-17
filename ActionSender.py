@@ -13,12 +13,14 @@ class IActionSender(abc.ABC):
 
 class ActionSender(IActionSender):
     def __init__(self) -> None:
-        self.arduino = serial.Serial('/dev/ttyS0', 9600, timeout=1)
+        self.arduino = serial.Serial('/dev/ttyS0', baudrate=115200, timeout=1)
+        #self.arduino = serial.Serial(port='ACM0', baudrate=9600, timeout=1)
 
     def sendAction(self, action: DTO_Action):
         serializedAction = self.serialiseAction(action)
-        print(serializedAction)
+        print(f'Sending serialized: {serializedAction}')
         self.arduino.write(bytes(serializedAction, 'utf-8'))
+        print('moved on')
 
     def serialiseAction(self, actionslist):
         i = 0

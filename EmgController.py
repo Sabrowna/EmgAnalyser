@@ -7,7 +7,6 @@ class EmgController():
     def __init__(self, actionSender: IActionSender, transformer: ITransformer) -> None:
         dto = DTO_Action()
         self.lastgrip = dto.actions
-        print(self.lastgrip)
         self.actionSender = actionSender
         self.emgTransformer = transformer
         self.sameGripRegistered = True
@@ -17,7 +16,7 @@ class EmgController():
         if (grip != None):
             if (self.lastgrip != grip):
                 print('new grip registered')
-                print(f'grip: {grip}')
                 print(f'lastgrip: {self.lastgrip}')
-                self.lastgrip = grip
+                print(f'grip: {grip}')
+                self.lastgrip = grip.copy()
                 self.actionSender.sendAction(grip)

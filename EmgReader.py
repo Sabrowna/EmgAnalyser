@@ -21,7 +21,6 @@ class Adc(IEmgReader):
         emgValuesDict.clear()
         for channel in range(channelAmount):
             self.adc.start_adc(channel)
-            emgInVoltage = (self.adc.read_adc(channel)) * (5/2048)
-            print('channel' + str(channel) + ': ' + str(emgInVoltage))
+            emgInVoltage = (self.adc.read_adc(channel)) * (5/32768)
             emgValuesDict[channel] = emgInVoltage
         return emgValuesDict
