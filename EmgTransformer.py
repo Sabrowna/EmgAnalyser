@@ -68,9 +68,12 @@ class EmgTransformer(ITransformer):
             elif emgValues[i+1] > 2 and emgValues[i] < 2:
                 motorDirection = sensors[i+1][1][-1]
                 motorRange = self.__getRange(((sensors)[i+1][1]))
-            elif emgValues[i] < 2 and emgValues[i+1] < 2:
+            elif emgValues[i] < 1.5 and emgValues[i+1] < 1.5:
                 motorDirection = 's'
                 motorRange = self.__getRange(((sensors)[i][1]))
+            else:
+                break
+                
             self.__createActionDto(motorDirection, motorRange)
         return self.dtoAction.actions
 
