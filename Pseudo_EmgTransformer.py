@@ -23,7 +23,7 @@ class PseudoClass():
         #self.dtoAction.actions[motor] = self.actionEnum.stop
         # return self.dtoAction.actions
 
-    def handlePairedSensorValues(self):
+    def handleSingleTension(self):
         pass
         # read sensor values
         #emgValues = self.adc.readSensor(self.sensorAmount)
@@ -39,7 +39,7 @@ class PseudoClass():
         #createActionDto(stop, motorRange)
         # example stop motor 1, 2, 3123
 
-    def handleSingleSensorValues(self):
+    def handleDoubleTension(self):
         pass
         # elif the value is > 2
         #createActionDto(open/close, motorRange)
