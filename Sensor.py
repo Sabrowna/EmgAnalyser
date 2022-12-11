@@ -1,16 +1,24 @@
 class Sensor:
     def __init__(self) -> None:
-        self.tensionTime = None
-        self.relaxTime = None
+        self.previousTensionTime = 0
+        self.tensionTime = 0
+        self.relaxTime = 0
         self.hasRelaxed = False
         self.direction = None
         self.motorConfig = None
+        self.isDoubleTensionActivated = False
 
-    def getTensionTime(self):
-        return self.tensionTime
+    def setPreviousTensionTime(self, time):
+        self.previousTensionTime = time
 
-    def setTensionTime(self, time):
-        self.tensionTime = time
+    def getPreviousTensionTime(self):
+        return self.previousTensionTime
+
+    def setIsDoubleTensionActivated(self, isDoubleTensionActivated):
+        self.isDoubleTensionActivated = isDoubleTensionActivated
+
+    def getIsDoubleTensionActivated(self):
+        return self.isDoubleTensionActivated
 
     def getRelaxTime(self):
         return self.relaxTime
@@ -30,8 +38,8 @@ class Sensor:
     def setMotorDirection(self, direction):
         self.direction = direction
 
-    def getMotorControlConfig(self):
+    def getSensorsMotorcontrol(self):
         return self.motorConfig
 
-    def setMotorControlConfig(self, motorConfig):
+    def setSensorsMotorcontrol(self, motorConfig):
         self.motorConfig = motorConfig
