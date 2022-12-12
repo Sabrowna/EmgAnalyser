@@ -1,5 +1,5 @@
 from ActionSender import IActionSender
-from EmgTransformer import ITransformer
+from Transformer import ITransformer
 from DTO_Action import *
 
 
@@ -12,7 +12,7 @@ class EmgController():
         self.sameGripRegistered = True
 
     def getNewAction(self):
-        grip = self.emgTransformer.handleSensorValues()
+        grip = self.emgTransformer.observeSensors()
         if (grip != None):
             if (self.lastgrip != grip):
                 print('new grip registered')

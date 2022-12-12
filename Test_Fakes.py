@@ -1,8 +1,6 @@
 from EmgReader import IEmgReader
 from ActionSender import IActionSender
-from EmgTransformer import ITransformer
 from DTO_Action import *
-import configparser
 
 
 class FakeAdc(IEmgReader):
@@ -31,9 +29,9 @@ class FakeActionSender(IActionSender):
         return self.amount
 
 
-class FakeTransformer(ITransformer):
+class FakeTransformer():
     def setDto(self, dto: DTO_Action):
         self.dto = dto
 
-    def handleSensorValues(self):
+    def observeSensors(self):
         return self.dto.actions

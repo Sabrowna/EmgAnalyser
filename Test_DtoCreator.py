@@ -26,8 +26,8 @@ class DtoCreatorTest(unittest.TestCase):
 
         # Act
         dtoCreator.createActionDto(sensor, False)
-        result = [actionEnum.open, actionEnum.na,
-                  actionEnum.na, actionEnum.na, actionEnum.na]
+        result = [actionEnum.open, actionEnum.stop,
+                  actionEnum.stop, actionEnum.stop, actionEnum.stop]
 
         # Assert
         self.assertEqual(dtoCreator.getActionDto(), result)
@@ -42,8 +42,8 @@ class DtoCreatorTest(unittest.TestCase):
 
         # Act
         dtoCreator.createActionDto(sensor, False)
-        result = [actionEnum.close, actionEnum.na,
-                  actionEnum.na, actionEnum.na, actionEnum.na]
+        result = [actionEnum.close, actionEnum.stop,
+                  actionEnum.stop, actionEnum.stop, actionEnum.stop]
 
         # Assert
         self.assertEqual(dtoCreator.getActionDto(), result)
@@ -90,8 +90,8 @@ class DtoCreatorTest(unittest.TestCase):
 
         # Act
         dtoCreator.createActionDto(sensor, False)
-        result = [actionEnum.na, actionEnum.na,
-                  actionEnum.close, actionEnum.na, actionEnum.na]
+        result = [actionEnum.stop, actionEnum.stop,
+                  actionEnum.close, actionEnum.stop, actionEnum.stop]
 
         # Assert
         self.assertEqual(dtoCreator.getActionDto(), result)
@@ -106,8 +106,8 @@ class DtoCreatorTest(unittest.TestCase):
 
         # Act
         dtoCreator.createActionDto(sensor, False)
-        result = [actionEnum.na, actionEnum.na,
-                  actionEnum.close, actionEnum.close, actionEnum.na]
+        result = [actionEnum.stop, actionEnum.stop,
+                  actionEnum.close, actionEnum.close, actionEnum.stop]
 
         # Assert
         self.assertEqual(dtoCreator.getActionDto(), result)

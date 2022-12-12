@@ -18,7 +18,7 @@ class TestTransformer(unittest.TestCase):
         actionEnum = ActionEnum
         emgReader = FakeEmgReader()
         emgReader.setEmgValues([2, 0, 2, 0])
-        transformer = Transformer('testv2_config.ini', emgReader)
+        transformer = Transformer('test1_config.ini', emgReader)
 
         # Act
         actionDto = transformer.observeSensors()
@@ -32,7 +32,7 @@ class TestTransformer(unittest.TestCase):
         # Arrange
         actionEnum = ActionEnum
         emgReader = FakeEmgReader()
-        transformer = Transformer('testv2_config.ini', emgReader)
+        transformer = Transformer('test1_config.ini', emgReader)
         emgReader.setEmgValues([0, 2, 0, 2])
 
         # Act
@@ -52,7 +52,7 @@ class TestTransformer(unittest.TestCase):
         sensor = Sensor()
         emgReader = FakeEmgReader()
         emgReader.setEmgValues([2, 0, 0, 0])
-        transformer = Transformer('testv3_config.ini', emgReader)
+        transformer = Transformer('test2_config.ini', emgReader)
 
         # Act
         transformer.observeSensors()
@@ -68,7 +68,7 @@ class TestTransformer(unittest.TestCase):
         sensor = Sensor()
         emgReader = FakeEmgReader()
         emgReader.setEmgValues([2, 0, 0, 0])
-        transformer = Transformer('testv3_config.ini', emgReader)
+        transformer = Transformer('test2_config.ini', emgReader)
 
         # Act
         transformer.observeSensors()
@@ -88,7 +88,7 @@ class TestTransformer(unittest.TestCase):
         sensor = Sensor()
         emgReader = FakeEmgReader()
         emgReader.setEmgValues([2, 0, 0, 0])
-        transformer = Transformer('testv3_config.ini', emgReader)
+        transformer = Transformer('test2_config.ini', emgReader)
 
         # Act
         transformer.observeSensors()
