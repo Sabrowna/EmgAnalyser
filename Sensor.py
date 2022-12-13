@@ -1,7 +1,6 @@
 class Sensor:
     def __init__(self) -> None:
         self.previousTensionTime = 0
-        self.tensionTime = 0
         self.relaxTime = 0
         self.hasRelaxed = False
         self.direction = None
