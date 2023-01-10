@@ -21,11 +21,11 @@ class DtoCreator(IDtoCreator):
                 if motorConfigs[i] != '0':
                     # if motorConfigs[i] == '0':
                     #     self.dtoAction.actions[i] = self.actionEnum.stop
-                    if sensor.getMotorDirection() == 'o' or (sensor.getMotorDirection() == 'd' and isDoubleTension == False):
+                    if (sensor.getMotorDirection() == 'o' and sensor.getIsActive() == True) or (sensor.getMotorDirection() == 'd' and isDoubleTension == False):
                         self.dtoAction.actions[i] = self.actionEnum.open
-                    elif sensor.getMotorDirection() == 'c' or (sensor.getMotorDirection() == 'd' and isDoubleTension == True):
+                    elif (sensor.getMotorDirection() == 'c' and sensor.getIsActive() == True) or (sensor.getMotorDirection() == 'd' and isDoubleTension == True):
                         self.dtoAction.actions[i] = self.actionEnum.close
-                    elif sensor.getMotorDirection() == 's':
+                    elif sensor.getMotorDirection() == 's' or sensor.getIsActive() == False:
                         self.dtoAction.actions[i] = self.actionEnum.stop
                     else:
                         continue

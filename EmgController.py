@@ -10,6 +10,7 @@ class EmgController():
         self.actionSender = actionSender
         self.emgTransformer = transformer
         self.sameGripRegistered = True
+        print("initialized in controller")
 
     def getNewAction(self):
         grip = self.emgTransformer.observeSensors()

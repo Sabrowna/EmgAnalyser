@@ -6,6 +6,7 @@ class Sensor:
         self.direction = None
         self.motorConfig = None
         self.isDoubleTensionActivated = False
+        self.isActive = True
 
     def setPreviousTensionTime(self, time):
         self.previousTensionTime = time
@@ -42,3 +43,9 @@ class Sensor:
 
     def setSensorsMotorcontrol(self, motorConfig):
         self.motorConfig = motorConfig
+    
+    def getIsActive(self):
+        return self.isActive
+    
+    def setIsActive(self, isActive):
+        self.isActive = isActive

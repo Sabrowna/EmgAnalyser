@@ -23,6 +23,7 @@ class Transformer():
         self.hysteresisValue = self.configReader.getHysteresisValue()
         self.emgReader = emgReader
         self.__initializeEachSensor()
+        print("initialized in transformer")
 
     def __initializeEachSensor(self):
         for i in range(self.configReader.getSensorAmount()):
@@ -61,6 +62,10 @@ class Transformer():
                         self.__resetDoubleTension(sensor)
                     else:
                         pass
+                elif self.__getTimeNow() - sensor.getPreviousTensionTime() > 1000:
+                    print("self.getTIme > 1000")
+                    self.__resetDoubleTension(sensor)
+                    
         elif sensorValue < 2:
             print(f'time: {self.__getTimeNow()}\n previous time: {sensor.getPreviousTensionTime()}\n forskel: {self.__getTimeNow() - sensor.getPreviousTensionTime()}')
             if (self.__getTimeNow() - sensor.getPreviousTensionTime() < 1500):
@@ -70,17 +75,20 @@ class Transformer():
             else:
                 sensor.setMotorDirection('s')
                 self.__resetDoubleTension(sensor)
+                
 
     def __handleSingleTensionSensor(self, sensor1, sensor2, emgValue1, emgValue2, sensorAmount):
         if emgValue1 > self.activationVoltage and emgValue2 > self.activationVoltage:
             pass
         elif emgValue1 >= self.activationVoltage and emgValue2 < self.activationVoltage:
+            sensor1.setIsActive(True)
             self.dtoCreator.createActionDto(sensor1, False)
         elif emgValue1 < self.activationVoltage and emgValue2 >= self.activationVoltage:
+            sensor2.setIsActive(True)
             self.dtoCreator.createActionDto(sensor2, False)
         elif emgValue1 < self.hysteresisValue and emgValue2 < self.hysteresisValue:
-            sensor1.setMotorDirection('s')
-            sensor2.setMotorDirection('s')
+            sensor1.setIsActive(False)
+            sensor2.setIsActive(False)
             self.dtoCreator.createActionDto(sensor1, False)
             self.dtoCreator.createActionDto(sensor2, False)
         else:
@@ -101,3 +109,5 @@ class Transformer():
         self.dtoCreator.createActionDto(sensor, False)
         sensor.setRelaxTime(0)
         sensor.setIsDoubleTensionActivated(False)
+        sensor.setHasRelaxed(False)
+        sensor.setMotorDirection('d')

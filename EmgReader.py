@@ -15,6 +15,7 @@ class Adc(IEmgReader):
             self.adc = Adafruit_ADS1x15.ADS1015()
         elif (adcType == 'ads1115'):
             self.adc = Adafruit_ADS1x15.ADS1115()
+            print("initialized in adc")
 
     def readSensor(self, channelAmount):
         emgValuesDict = {}
@@ -23,4 +24,5 @@ class Adc(IEmgReader):
             self.adc.start_adc(channel)
             emgInVoltage = (self.adc.read_adc(channel)) * (5/32768)
             emgValuesDict[channel] = emgInVoltage
+            #print("channel " + str(channel) + ": " + str(emgInVoltage)) 
         return emgValuesDict
