@@ -40,6 +40,7 @@ class Transformer():
 
         for i in range(self.sensorAmount):
             if self.sensorList[i].getMotorDirection() == 'd':
+                #print('sensor' + str(i+1))
                 self.__handleDoubleTensionSensor(
                     self.sensorList[i], emgValues[i])
             else:
@@ -50,32 +51,30 @@ class Transformer():
 
     def __handleDoubleTensionSensor(self, sensor, sensorValue):
         if sensorValue >= 2:
+            #print(f'time: {self.__getTimeNow()}\n previous time: {sensor.getPreviousTensionTime()}\n forskel: {self.__getTimeNow() - sensor.getPreviousTensionTime()}')
             if sensor.getIsDoubleTensionActivated() == False:
                 print(sensor.getPreviousTensionTime())
                 if sensor.getPreviousTensionTime() == 0:
                     sensor.setPreviousTensionTime(self.__getTimeNow())
                 if sensor.getHasRelaxed() == True:
-                    if (self.__getTimeNow() - sensor.getPreviousTensionTime()) < 1500:
+                    if (self.__getTimeNow() - sensor.getPreviousTensionTime()) <= 1500:
                         self.__doubleTension(sensor)
-                    elif (self.__getTimeNow() - sensor.getRelaxTime() > 1500):
-                        # elif (self.__getTimeNow() - sensor.getPreviusTensiontime() > 1500):
-                        self.__resetDoubleTension(sensor)
                     else:
-                        pass
+                        self.__resetDoubleTension(sensor)
+
                 elif self.__getTimeNow() - sensor.getPreviousTensionTime() > 1000:
                     print("self.getTIme > 1000")
                     self.__resetDoubleTension(sensor)
-                    
+
         elif sensorValue < 2:
-            print(f'time: {self.__getTimeNow()}\n previous time: {sensor.getPreviousTensionTime()}\n forskel: {self.__getTimeNow() - sensor.getPreviousTensionTime()}')
+            #print(f'time: {self.__getTimeNow()}\n previous time: {sensor.getPreviousTensionTime()}\n forskel: {self.__getTimeNow() - sensor.getPreviousTensionTime()}')
             if (self.__getTimeNow() - sensor.getPreviousTensionTime() < 1500):
                 if sensor.getRelaxTime() == 0:
-                    sensor.setRelaxTime(self.__getTimeNow)
+                    sensor.setRelaxTime(self.__getTimeNow())
                     sensor.setHasRelaxed(True)
             else:
                 sensor.setMotorDirection('s')
                 self.__resetDoubleTension(sensor)
-                
 
     def __handleSingleTensionSensor(self, sensor1, sensor2, emgValue1, emgValue2, sensorAmount):
         if emgValue1 > self.activationVoltage and emgValue2 > self.activationVoltage:
@@ -95,19 +94,19 @@ class Transformer():
             pass
 
     def __getTimeNow(self):
-        return time.time_ns() * 1000
+        return time.time_ns() / 1000000
 
     def __doubleTension(self, sensor):
         self.dtoCreator.createActionDto(sensor, True)
         sensor.setIsDoubleTensionActivated(True)
         sensor.setPreviousTensionTime(0)
-        sensor.setRelaxTime(0)
+        sensor.setRelaxTime(0.0)
         sensor.setHasRelaxed(False)
 
     def __resetDoubleTension(self, sensor):
-        sensor.setPreviousTensionTime(self.__getTimeNow())
+        sensor.setPreviousTensionTime(0)
         self.dtoCreator.createActionDto(sensor, False)
-        sensor.setRelaxTime(0)
+        sensor.setRelaxTime(0.0)
         sensor.setIsDoubleTensionActivated(False)
         sensor.setHasRelaxed(False)
         sensor.setMotorDirection('d')

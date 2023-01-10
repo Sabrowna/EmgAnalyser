@@ -1,7 +1,7 @@
 class Sensor:
     def __init__(self) -> None:
         self.previousTensionTime = 0
-        self.relaxTime = 0
+        self.relaxTime = 0.0
         self.hasRelaxed = False
         self.direction = None
         self.motorConfig = None
@@ -23,7 +23,7 @@ class Sensor:
     def getRelaxTime(self):
         return self.relaxTime
 
-    def setRelaxTime(self, time):
+    def setRelaxTime(self, time: float):
         self.relaxTime = time
 
     def getHasRelaxed(self):
@@ -43,9 +43,9 @@ class Sensor:
 
     def setSensorsMotorcontrol(self, motorConfig):
         self.motorConfig = motorConfig
-    
+
     def getIsActive(self):
         return self.isActive
-    
+
     def setIsActive(self, isActive):
         self.isActive = isActive
